@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "target": "es2022",
+        "module": "ESNext",
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "baseUrl": ".",
+        "paths": {
+            "@backend": ["./e-office-api-v2/src"],
+            "@backend/*": ["./e-office-api-v2/src/*"],
+            "@frontend": ["./e-office-webapp-v2/src"],
+            "@frontend/*": ["./e-office-webapp-v2/src/*"]
+        }
+    }
+}

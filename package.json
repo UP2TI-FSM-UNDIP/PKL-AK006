@@ -1,0 +1,17 @@
+{
+    "name": "e-office",
+    "module": "index.ts",
+    "baseUrl": ".",
+    "type": "module",
+    "private": true,
+    "devDependencies": {
+        "@types/bun": "^1.1.6"
+    },
+    "peerDependencies": {
+        "typescript": "^5.5.3"
+    },
+    "workspaces": [
+        "e-office-api-v2",
+        "e-office-webapp-v2"
+    ]
+}
