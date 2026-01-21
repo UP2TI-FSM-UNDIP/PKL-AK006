@@ -13,5 +13,8 @@
     "workspaces": [
         "e-office-api-v2",
         "e-office-webapp-v2"
-    ]
+    ],
+    "dependencies": {
+        "@radix-ui/react-slot": "^1.2.4"
+    }
 }
