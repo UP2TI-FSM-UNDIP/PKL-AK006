@@ -1,286 +1,202 @@
-# E-Office Monorepo
+# E-Office Monorepo (Tim 2)
 
-Sistem E-Office terintegrasi dengan arsitektur monorepo menggunakan Bun workspaces.
+Sistem E-Office terintegrasi dengan arsitektur monorepo menggunakan Bun workspaces untuk manajemen surat resmi akademik dan administrasi di lingkungan Fakultas Sains dan Matematika (FSM) Universitas Diponegoro.
 
 ## 📋 Deskripsi Proyek
 
-E-Office adalah sistem manajemen surat elektronik yang terdiri dari dua aplikasi utama:
-- **Backend API (e-office-api-v2)**: REST API menggunakan Elysia.js dan Prisma
-- **Frontend Web (e-office-webapp-v2)**: Aplikasi web menggunakan Next.js 16
+E-Office adalah platform tata kelola surat elektronik dinas dan akademik terpadu yang dirancang untuk mengurangi penggunaan kertas (*paperless*) dan mempercepat alur birokrasi persetujuan. Sistem terdiri dari dua sub-aplikasi utama:
+- **Backend API (e-office-api-v2)**: Layanan REST API berkinerja tinggi menggunakan Elysia.js, Prisma ORM, Better Auth, dan Casbin (RBAC).
+- **Frontend Web (e-office-webapp-v2)**: Aplikasi web modern yang responsif menggunakan Next.js 16 (App Router), Tailwind CSS v4, dan Radix UI.
+
+---
 
 ## 🏗️ Struktur Proyek
 
 ```
 e-office-monorepo/
-├── e-office-api-v2/          # Backend API
-│   ├── src/                  # Source code
-│   │   ├── routes/           # API routes
-│   │   ├── services/         # Business logic
-│   │   ├── middlewares/      # Middleware functions
-│   │   └── lib/              # Utility libraries
-│   ├── prisma/               # Database schema & migrations
-│   └── casbin/               # Authorization model
+├── e-office-api-v2/          # Backend API (Elysia.js)
+│   ├── src/                  # Source code utama
+│   │   ├── routes/           # API Endpoints & Routing
+│   │   ├── services/         # Logika Bisnis & Layanan
+│   │   ├── middlewares/      # Interseptor & Middleware
+│   │   └── lib/              # Pustaka utilitas (Auth, DB client, dll)
+│   ├── prisma/               # Skema basis data PostgreSQL & Migrasi
+│   └── casbin/               # Model otorisasi akses (RBAC)
 │
-├── e-office-webapp-v2/       # Frontend Web Application
+├── e-office-webapp-v2/       # Frontend Web App (Next.js 16)
 │   ├── src/
-│   │   ├── app/              # Next.js App Router pages
-│   │   ├── components/       # React components
-│   │   ├── context/          # React contexts
-│   │   ├── hooks/            # Custom React hooks
-│   │   └── lib/              # Utility functions
-│   └── public/               # Static assets
+│   │   ├── app/              # Next.js App Router (Pages & Layouts)
+│   │   ├── components/       # Komponen UI Reusable (shadcn/ui)
+│   │   ├── context/          # State management global & formulir
+│   │   ├── hooks/            # Custom React hooks (e.g. Upload, Auth)
+│   │   └── lib/              # Utilitas API client (Eden Treaty) & IndexedDB
+│   └── public/               # Aset statis & template surat
 │
-├── package.json              # Root workspace configuration
-└── tsconfig.base.json        # Shared TypeScript config
+├── package.json              # Konfigurasi workspace monorepo & script global
+└── tsconfig.base.json        # Berbagi konfigurasi TypeScript compiler
 ```
 
-## 🚀 Quick Start
+---
 
-### Prerequisites
+## 🚀 Quick Start & Workspace Scripts
 
+Proyek ini telah dikonfigurasi dengan **Bun Workspaces**. Anda dapat menjalankan seluruh perintah development, migrasi database, seeding, dan build langsung dari **direktori root** tanpa perlu berpindah folder (`cd`) di terminal yang berbeda.
+
+### Prasyarat System
 - [Bun](https://bun.sh/) v1.1.6 atau lebih tinggi
 - Node.js v20 atau lebih tinggi
 - PostgreSQL database
-- MinIO atau S3-compatible storage (optional)
+- MinIO atau S3-compatible object storage
 
-### Instalasi
-
-1. Clone repository:
-```bash
-git clone <repository-url>
-cd e-office-monorepo
-```
-
-2. Install dependencies:
+### 1. Instalasi Dependensi
+Jalankan perintah berikut di direktori root monorepo:
 ```bash
 bun install
 ```
 
-3. Setup environment variables:
+### 2. Setup Environment Variables
+Buat berkas `.env` untuk masing-masing aplikasi dengan menyalin contoh yang tersedia:
 ```bash
-# Copy example environment files
+# Salin konfigurasi backend
 cp e-office-api-v2/.env.example e-office-api-v2/.env
+
+# Salin konfigurasi frontend
 cp e-office-webapp-v2/.env.example e-office-webapp-v2/.env
-
-# Edit .env files dengan konfigurasi Anda
 ```
+> [!IMPORTANT]
+> Sesuaikan konfigurasi port, koneksi database PostgreSQL, kredensial S3/MinIO, dan SSO Client ID sesuai dengan alokasi Tim 2 Anda sebelum menjalankan aplikasi.
 
-4. Setup database:
+### 3. Setup Database & Seeding
+Jalankan migrasi schema dan seeding data master/demo dari direktori root:
 ```bash
-cd e-office-api-v2
-bun run prisma migrate dev
-bun run prisma db seed
+# Jalankan migrasi database
+bun db:migrate
+
+# Masukkan data demo dan konfigurasi awal (seed)
+bun db:seed
 ```
 
-### Menjalankan Aplikasi
-
-#### Development Mode
-
-Jalankan kedua aplikasi secara bersamaan:
-
+### 4. Menjalankan Server Development
+Untuk menjalankan Backend API dan Frontend Web secara bersamaan secara paralel:
 ```bash
-# Terminal 1 - Backend API
-cd e-office-api-v2
-bun run dev
-
-# Terminal 2 - Frontend Web
-cd e-office-webapp-v2
-bun run dev
+bun dev
 ```
-
-Backend API akan berjalan di: `http://localhost:3001`
-Frontend Web akan berjalan di: `http://localhost:3000`
-
-#### Production Mode
-
+Atau jika Anda ingin menjalankannya secara terpisah di terminal yang berbeda:
 ```bash
-# Build semua aplikasi
-bun run build
+# Menjalankan Backend API saja (Port: 20022)
+bun dev:api
 
-# Start backend API
-cd e-office-api-v2
-bun run start
-
-# Start frontend (di terminal berbeda)
-cd e-office-webapp-v2
-bun run start
+# Menjalankan Frontend Web saja (Port: 20021)
+bun dev:web
 ```
+
+---
+
+## ⚙️ Ringkasan Port & URL Layanan (Tim 2)
+
+| Layanan / Console | URL Lokal | Kredensial Default | Deskripsi |
+|-------------------|-----------|---------------------|-----------|
+| **Frontend Web** | `http://localhost:20021` | Lihat Demo Akun di bawah | Aplikasi Client Utama |
+| **Backend API** | `http://localhost:20022` | - | REST API Endpoint |
+| **API Swagger Docs**| `http://localhost:20022/swagger` | - | Dokumentasi API Interaktif |
+| **Prisma Studio** | `http://localhost:5555` | - | GUI Penjelajah Database (Jalankan `bun db:studio`) |
+| **pgAdmin Console**| `http://localhost:5050` | `admin@example.com` / `admin` | GUI Manajemen PostgreSQL |
+| **MinIO Console** | `http://localhost:9001` | `minioadmin` / `minioadmin` | GUI Object Storage |
+
+---
+
+## 🔐 Demo User Accounts
+
+Setelah menjalankan `bun db:seed`, Anda dapat menggunakan akun demo berikut untuk menguji alur kerja persuratan (*approval workflow*):
+
+| Role | Email | Password | Alur Tanggung Jawab |
+|------|-------|----------|---------------------|
+| **Super Admin** | `superadmin@fsm.internal` | `password1234` | Manajemen Master Data & Role/Permission |
+| **Mahasiswa** (Pemohon) | `mahasiswa@demo.local` | `password1234` | Inisiasi draft & pengajuan surat |
+| **Supervisor Akademik** | `sa@demo.local` | `password1234` | Verifikasi dokumen pengajuan mahasiswa |
+| **Manajer TU** | `mtu@demo.local` | `password1234` | Peninjauan akhir & penandatanganan surat resmi |
+| **UPA** (Unit Pelaksana Akademik)| `upa@demo.local` | `password1234` | Pemberian nomor surat keluar & pengarsipan PDF |
+
+---
 
 ## 📦 Teknologi Stack
 
-### Backend (e-office-api-v2)
+### Backend (`e-office-api-v2`)
 
-| Teknologi | Versi | Kegunaan |
-|-----------|-------|----------|
-| Bun | ^1.3.2 | JavaScript runtime & package manager |
-| Elysia.js | ^1.4.19 | Web framework |
-| Prisma | ^6.19.0 | ORM & database toolkit |
-| Better Auth | ^1.4.6 | Authentication library |
-| Casbin | ^5.45.0 | Authorization library (RBAC) |
-| MinIO | ^8.0.6 | Object storage client |
-| Zod | ^4.2.1 | Schema validation |
-| Biome | ^2.3.5 | Linter & formatter |
+- **Bun Runtime** (^1.3.2) - JavaScript/TypeScript runtime & package manager super cepat.
+- **Elysia.js** (^1.4.19) - Web framework TypeScript modern dengan dukungan schema validation ketat.
+- **Prisma ORM** (^6.19.0) - Object-relational mapping deklaratif terintegrasi dengan PostgreSQL.
+- **Better Auth** (^1.4.6) - Pustaka autentikasi tangguh dengan sistem sesi aman.
+- **Casbin** (^5.45.0) - Pustaka otorisasi berbasis kebijakan formal (RBAC).
+- **MinIO S3 Client** (^8.0.6) - Penyimpanan berkas lampiran dan tanda tangan terenkripsi.
+- **Biome** (^2.3.5) - Alat pemformatan (*formatter*) dan pemeriksa kode (*linter*) yang cepat.
 
-### Frontend (e-office-webapp-v2)
+### Frontend (`e-office-webapp-v2`)
 
-| Teknologi | Versi | Kegunaan |
-|-----------|-------|----------|
-| Next.js | 16.0.8 | React framework |
-| React | 19.2.1 | UI library |
-| TypeScript | ^5 | Type safety |
-| Tailwind CSS | ^4 | Styling framework |
-| Radix UI | - | Headless UI components |
-| Lucide React | ^0.562.0 | Icon library |
-| Eden Treaty | ^1.4.5 | Type-safe API client |
+- **Next.js** (16.0.8) - Framework React teroptimasi untuk Server-Side Rendering (SSR) & App Router.
+- **React** (19.2.1) - Pustaka antarmuka grafis deklaratif berbasis komponen.
+- **Tailwind CSS** (^4) - Framework styling modern berbasis utility-first.
+- **Eden Treaty** (^1.4.5) - Client API type-safe yang menghubungkan langsung tipe data server Elysia ke client Next.js.
+- **IndexedDB (idb-keyval)** - Penyimpanan luring (*offline storage*) untuk draf surat pemohon.
 
-## 🗄️ Database Schema
+---
 
-Database menggunakan PostgreSQL dengan Prisma ORM. Skema utama meliputi:
+## 📁 Integrasi & Alur Data
 
-- **User**: Pengguna sistem
-- **Account**: OAuth accounts
-- **Session**: User sessions
-- **Role**: User roles
-- **Permission**: System permissions
-- **RolePermission**: Role-permission mapping
-- **Departemen**: Departments
-- **Pegawai**: Staff/employees
-- **Mahasiswa**: Students
-- **LetterTemplate**: Letter templates
-- **LetterInstance**: Letter instances
-- **Attachment**: File attachments
+### 1. Autentikasi & Autorisasi (Better Auth + Casbin)
+- Autentikasi berbasis sesi (*session-based*) menggunakan secure cookies untuk menghindari kelemahan pencabutan token JWT.
+- Otorisasi menggunakan Casbin dengan model **RBAC** (Role-Based Access Control) yang menentukan hak akses pengguna berdasarkan kombinasi `Subject (User/Role)`, `Object (Resource/Path)`, dan `Action (HTTP Method)`.
 
-Lihat detail di [e-office-api-v2/prisma/schema.prisma](e-office-api-v2/prisma/schema.prisma)
+### 2. Integrasi SSO UNDIP
+- Sistem terintegrasi dengan Single Sign-On (SSO) Universitas Diponegoro melalui endpoint API di `https://apps-fsm.undip.ac.id/sso_api`.
 
-## 🔐 Authentication & Authorization
+### 3. Object Storage (S3 / MinIO)
+- Dokumen lampiran fisik, gambar pratinjau, dan berkas tanda tangan dinas diunggah langsung ke bucket `bucket-tim-2` yang terisolasi aman dari application server.
 
-### Authentication (Better Auth)
+---
 
-Sistem menggunakan Better Auth untuk autentikasi dengan fitur:
-- Email/Password login
-- Session management
-- Email verification
-- Password reset
+## 🐳 Docker Services Setup
 
-### Authorization (Casbin)
-
-RBAC (Role-Based Access Control) menggunakan Casbin dengan model:
-- **Subject**: User/Role
-- **Object**: Resource/Endpoint
-- **Action**: HTTP Method (GET, POST, PUT, DELETE)
-- **Effect**: Allow/Deny
-
-Model konfigurasi: [e-office-api-v2/casbin/model.conf](e-office-api-v2/casbin/model.conf)
-
-## 📁 File Storage
-
-MinIO digunakan untuk penyimpanan file dengan konfigurasi:
-- Documents bucket: `e-office-documents`
-- Attachments bucket: `e-office-attachments`
-- Public access untuk file tertentu
-
-## 🔧 Scripts
-
-### Root Level
-
-```bash
-bun install              # Install semua dependencies
-```
-
-### Backend (e-office-api-v2)
-
-```bash
-bun run dev             # Development mode dengan hot reload
-bun run start           # Production mode
-bun run lint            # Check code dengan Biome
-bun run lint:fix        # Fix code issues
-```
-
-### Frontend (e-office-webapp-v2)
-
-```bash
-bun run dev             # Development server
-bun run build           # Production build
-bun run start           # Start production server
-bun run lint            # ESLint check
-```
-
-## 🐳 Docker Support
-
-Backend API mendukung containerization dengan Docker:
+Untuk mempermudah instalasi database dan object storage di lingkungan lokal secara cepat, gunakan Docker Compose:
 
 ```bash
 cd e-office-api-v2
 
-# Development
-docker-compose -f docker-compose.dev.yml up
+# Jalankan PostgreSQL, pgAdmin, dan MinIO di latar belakang
+docker compose up -d
 
-# Production
-docker-compose up
+# Hentikan semua service docker
+docker compose down
 ```
 
-## 📝 API Documentation
+---
 
-API documentation tersedia melalui Swagger UI saat menjalankan backend:
+## 🔧 Script Lengkap Monorepo
 
-```
-http://localhost:3001/swagger
-```
+| Perintah | Deskripsi |
+|----------|-----------|
+| `bun dev` | Menjalankan API & Web App secara bersamaan (paralel) |
+| `bun dev:api` | Menjalankan Backend API saja (Port: 20022) |
+| `bun dev:web` | Menjalankan Frontend Web saja (Port: 20021) |
+| `bun build` | Melakukan kompilasi & build produksi aplikasi frontend Next.js |
+| `bun start:api` | Menjalankan Backend API dalam mode produksi |
+| `bun start:web` | Menjalankan Frontend Web dalam mode produksi |
+| `bun db:migrate` | Menerapkan migrasi skema basis data baru via Prisma |
+| `bun db:seed` | Mengisi data dummy/demo awal ke dalam database |
+| `bun db:studio` | Membuka antarmuka visual penjelajah database Prisma Studio |
+| `bun lint` | Memeriksa kepatuhan formatting & linting kode di seluruh workspace |
 
-## 🧪 Testing
+---
 
-```bash
-# Backend tests
-cd e-office-api-v2
-bun test
+## 🚧 Rencana Pengembangan (Roadmap)
 
-# Frontend tests
-cd e-office-webapp-v2
-bun test
-```
+- [ ] Integrasi penuh Unit Testing & Integration Testing.
+- [ ] Pengaturan CI/CD pipeline otomatis untuk staging dan production.
+- [ ] Implementasi API Rate Limiting untuk mencegah penyalahgunaan API.
+- [ ] Dukungan lokalisasi multi-bahasa (i18n).
+- [ ] PWA (Progressive Web App) support untuk akses mobile luring lebih optimal.
 
-## 📈 Development Workflow
-
-1. **Branching Strategy**: Gunakan Git Flow
-   - `main`: Production-ready code
-   - `develop`: Development branch
-   - `feature/*`: Feature branches
-   - `hotfix/*`: Hotfix branches
-
-2. **Commit Convention**: 
-   ```
-   feat: Tambah fitur baru
-   fix: Perbaikan bug
-   docs: Update dokumentasi
-   style: Format code
-   refactor: Refactoring code
-   test: Tambah/update tests
-   chore: Maintenance tasks
-   ```
-
-3. **Code Review**: Semua PR harus di-review sebelum merge
-
-## 🚧 Roadmap
-
-- [ ] Unit testing & integration testing
-- [ ] CI/CD pipeline setup
-- [ ] Performance monitoring
-- [ ] API rate limiting
-- [ ] Multi-language support (i18n)
-- [ ] Mobile app (React Native)
-
-## 👥 Tim Pengembang
-
-| Role | Nama | Contact |
-|------|------|---------|
-| Backend Developer | - | - |
-| Frontend Developer | - | - |
-| UI/UX Designer | - | - |
-| Project Manager | - | - |
-
-## 📄 License
-
-Private - All rights reserved
+---
 
 ## 🆘 Support
 
@@ -291,5 +207,6 @@ Untuk bantuan atau pertanyaan, hubungi:
 
 ---
 
-**Last Updated**: January 2026
-**Version**: 2.0.0
+**Last Updated**: May 2026  
+**Version**: 2.0.0 (Tim 2 Configuration)  
+**License**: Private - All rights reserved

@@ -4,6 +4,20 @@
     "baseUrl": ".",
     "type": "module",
     "private": true,
+    "scripts": {
+        "dev:api": "bun --cwd e-office-api-v2 dev",
+        "dev:web": "bun --cwd e-office-webapp-v2 dev",
+        "dev": "bun dev:api & bun dev:web",
+        "build": "bun --cwd e-office-webapp-v2 build",
+        "start:api": "bun --cwd e-office-api-v2 start",
+        "start:web": "bun --cwd e-office-webapp-v2 start",
+        "db:migrate": "bun --cwd e-office-api-v2 prisma migrate dev",
+        "db:seed": "bun --cwd e-office-api-v2 run src/db/seed.ts",
+        "db:studio": "bun --cwd e-office-api-v2 prisma studio",
+        "lint:api": "bun --cwd e-office-api-v2 lint",
+        "lint:web": "bun --cwd e-office-webapp-v2 lint",
+        "lint": "bun lint:api && bun lint:web"
+    },
     "devDependencies": {
         "@types/bun": "^1.1.6"
     },
