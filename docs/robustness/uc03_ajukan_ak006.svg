@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1050" height="440" viewBox="0 0 1050 440">
+  <rect width="1050" height="440" fill="white" />
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="black" />
+    </marker>
+    <marker id="arr2" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+      <polygon points="10 0, 0 3.5, 10 7" fill="black" />
+    </marker>
+  </defs>
+  <text x="20" y="35" fill="black" style="font-family:Arial,sans-serif;font-size:16px;font-weight:bold;text-anchor:start;">UC-03: MENGAJUKAN SURAT AK006</text>
+  <circle cx="70" cy="183.0" r="9.9" fill="white" stroke="black" stroke-width="2" />
+  <line x1="70" y1="192.9" x2="70" y2="215.4" stroke="black" stroke-width="2" />
+  <line x1="55.6" y1="199.2" x2="84.4" y2="199.2" stroke="black" stroke-width="2" />
+  <line x1="70" y1="215.4" x2="57.4" y2="229.8" stroke="black" stroke-width="2" />
+  <line x1="70" y1="215.4" x2="82.6" y2="229.8" stroke="black" stroke-width="2" />
+  <text x="70" y="233.4" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Mahasiswa</text>
+  <rect x="170" y="133" width="120" height="55" fill="white" stroke="black" stroke-width="1.5" />
+  <line x1="170" y1="133" x2="170" y2="188" stroke="black" stroke-width="5" />
+  <text x="232" y="153" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Form Pengajuan</text>
+  <text x="232" y="167" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">AK006</text>
+  <rect x="170" y="285" width="120" height="50" fill="white" stroke="black" stroke-width="1.5" />
+  <line x1="170" y1="285" x2="170" y2="335" stroke="black" stroke-width="5" />
+  <text x="232" y="303" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Upload</text>
+  <text x="232" y="317" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Lampiran</text>
+  <circle cx="450" cy="210" r="50" fill="white" stroke="black" stroke-width="1.5" />
+  <line x1="485.3553390593274" y1="174.64466094067262" x2="487.88919483961166" y2="183.28060761053572" stroke="black" stroke-width="2" />
+  <line x1="485.3553390593274" y1="174.64466094067262" x2="493.9912857291905" y2="177.17851672095694" stroke="black" stroke-width="2" />
+  <text x="450" y="196" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Letter</text>
+  <text x="450" y="210" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Submission</text>
+  <text x="450" y="224" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Controller</text>
+  <circle cx="650" cy="340" r="42" fill="white" stroke="black" stroke-width="1.5" />
+  <line x1="679.698484809835" y1="310.301515190165" x2="682.2323405901193" y2="318.9374618600281" stroke="black" stroke-width="2" />
+  <line x1="679.698484809835" y1="310.301515190165" x2="688.3344314796981" y2="312.8353709704493" stroke="black" stroke-width="2" />
+  <text x="650" y="333" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Notification</text>
+  <text x="650" y="347" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Controller</text>
+  <circle cx="680" cy="150" r="38" fill="white" stroke="black" stroke-width="1.5" />
+  <line x1="642" y1="192" x2="718" y2="192" stroke="black" stroke-width="2" />
+  <text x="680" y="143" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Letter</text>
+  <text x="680" y="157" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Instance</text>
+  <circle cx="830" cy="150" r="38" fill="white" stroke="black" stroke-width="1.5" />
+  <line x1="792" y1="192" x2="868" y2="192" stroke="black" stroke-width="2" />
+  <text x="830" y="143" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Letter</text>
+  <text x="830" y="157" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Type</text>
+  <circle cx="830" cy="260" r="38" fill="white" stroke="black" stroke-width="1.5" />
+  <line x1="792" y1="302" x2="868" y2="302" stroke="black" stroke-width="2" />
+  <text x="830" y="260" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Attachment</text>
+  <circle cx="950" cy="340" r="38" fill="white" stroke="black" stroke-width="1.5" />
+  <line x1="912" y1="382" x2="988" y2="382" stroke="black" stroke-width="2" />
+  <text x="950" y="340" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Notification</text>
+  <line x1="92" y1="200" x2="169" y2="165" stroke="black" stroke-width="1.3" marker-end="url(#arr)" marker-start="none" />
+  <text x="135.4656353316142" y="193.42439772955126" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">1: isi form surat</text>
+  <line x1="92" y1="225" x2="169" y2="315" stroke="black" stroke-width="1.3" marker-end="url(#arr)" marker-start="none" />
+  <text x="121.38177304133255" y="277.80114973130435" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">2: upload lampiran</text>
+  <line x1="291" y1="165" x2="399" y2="200" stroke="black" stroke-width="1.3" marker-end="url(#arr)" marker-start="none" />
+  <text x="341.3005285630206" y="193.91551186267938" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">3: submitSurat(data)</text>
+  <line x1="291" y1="315" x2="430" y2="240" stroke="black" stroke-width="1.3" marker-end="url(#arr)" marker-start="none" />
+  <text x="366.1982572329322" y="288.06077007170103" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">3.1: addAttachment(file)</text>
+  <line x1="480" y1="180" x2="641" y2="155" stroke="black" stroke-width="1.3" marker-end="url(#arr)" marker-start="none" />
+  <text x="562.3412879444446" y="179.35789436222313" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">4: &lt;&lt;create&gt;&gt;</text>
+  <line x1="495" y1="195" x2="791" y2="158" stroke="black" stroke-width="1.3" marker-end="url(#arr)" marker-start="none" />
+  <text x="644.4884168150705" y="188.407334520564" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">4.1: findLetterType()</text>
+  <line x1="495" y1="225" x2="791" y2="255" stroke="black" stroke-width="1.3" marker-end="url(#arr)" marker-start="none" />
+  <text x="641.7899826133444" y="251.93883821500197" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">5: &lt;&lt;create&gt;&gt;</text>
+  <text x="641.7899826133444" y="264.93883821500197" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">Attachment</text>
+  <line x1="460" y1="260" x2="607" y2="340" stroke="black" stroke-width="1.3" marker-end="url(#arr)" marker-start="none" />
+  <text x="527.7638244864771" y="310.5402225060983" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">6: sendNotif(SA)</text>
+  <line x1="693" y1="340" x2="911" y2="340" stroke="black" stroke-width="1.3" marker-end="url(#arr)" marker-start="none" />
+  <text x="802.0" y="352.0" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">6.1: &lt;&lt;create&gt;&gt;</text>
+</svg>

@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="480" viewBox="0 0 1100 480">
+  <rect width="1100" height="480" fill="white" />
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="black" />
+    </marker>
+    <marker id="arr2" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+      <polygon points="10 0, 0 3.5, 10 7" fill="black" />
+    </marker>
+  </defs>
+  <text x="20" y="35" fill="black" style="font-family:Arial,sans-serif;font-size:16px;font-weight:bold;text-anchor:start;">UC-07: MANAJEMEN PENGGUNA &amp; ROLE</text>
+  <circle cx="65" cy="203.0" r="9.9" fill="white" stroke="black" stroke-width="2" />
+  <line x1="65" y1="212.9" x2="65" y2="235.4" stroke="black" stroke-width="2" />
+  <line x1="50.6" y1="219.2" x2="79.4" y2="219.2" stroke="black" stroke-width="2" />
+  <line x1="65" y1="235.4" x2="52.4" y2="249.8" stroke="black" stroke-width="2" />
+  <line x1="65" y1="235.4" x2="77.6" y2="249.8" stroke="black" stroke-width="2" />
+  <text x="65" y="253.4" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Super Admin</text>
+  <rect x="160" y="135" width="130" height="50" fill="white" stroke="black" stroke-width="1.5" />
+  <line x1="160" y1="135" x2="160" y2="185" stroke="black" stroke-width="5" />
+  <text x="227" y="153" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Daftar</text>
+  <text x="227" y="167" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Pengguna</text>
+  <rect x="160" y="245" width="130" height="50" fill="white" stroke="black" stroke-width="1.5" />
+  <line x1="160" y1="245" x2="160" y2="295" stroke="black" stroke-width="5" />
+  <text x="227" y="263" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Form Buat</text>
+  <text x="227" y="277" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Pengguna</text>
+  <rect x="160" y="355" width="130" height="50" fill="white" stroke="black" stroke-width="1.5" />
+  <line x1="160" y1="355" x2="160" y2="405" stroke="black" stroke-width="5" />
+  <text x="227" y="373" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Form Assign</text>
+  <text x="227" y="387" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Role</text>
+  <circle cx="450" cy="200" r="50" fill="white" stroke="black" stroke-width="1.5" />
+  <line x1="485.3553390593274" y1="164.64466094067262" x2="487.88919483961166" y2="173.28060761053572" stroke="black" stroke-width="2" />
+  <line x1="485.3553390593274" y1="164.64466094067262" x2="493.9912857291905" y2="167.17851672095694" stroke="black" stroke-width="2" />
+  <text x="450" y="193" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">User Mgmt</text>
+  <text x="450" y="207" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Controller</text>
+  <circle cx="450" cy="350" r="50" fill="white" stroke="black" stroke-width="1.5" />
+  <line x1="485.3553390593274" y1="314.6446609406726" x2="487.88919483961166" y2="323.28060761053575" stroke="black" stroke-width="2" />
+  <line x1="485.3553390593274" y1="314.6446609406726" x2="493.9912857291905" y2="317.1785167209569" stroke="black" stroke-width="2" />
+  <text x="450" y="343" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Role Assign</text>
+  <text x="450" y="357" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Controller</text>
+  <circle cx="650" cy="430" r="45" fill="white" stroke="black" stroke-width="1.5" />
+  <line x1="681.8198051533947" y1="398.18019484660533" x2="684.353660933679" y2="406.81614151646846" stroke="black" stroke-width="2" />
+  <line x1="681.8198051533947" y1="398.18019484660533" x2="690.4557518232577" y2="400.7140506268896" stroke="black" stroke-width="2" />
+  <text x="650" y="423" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Email Notif</text>
+  <text x="650" y="437" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Controller</text>
+  <circle cx="700" cy="140" r="34" fill="white" stroke="black" stroke-width="1.5" />
+  <line x1="666" y1="178" x2="734" y2="178" stroke="black" stroke-width="2" />
+  <text x="700" y="140" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">User</text>
+  <circle cx="860" cy="140" r="34" fill="white" stroke="black" stroke-width="1.5" />
+  <line x1="826" y1="178" x2="894" y2="178" stroke="black" stroke-width="2" />
+  <text x="860" y="133" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Pegawai/</text>
+  <text x="860" y="147" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Mahasiswa</text>
+  <circle cx="700" cy="280" r="34" fill="white" stroke="black" stroke-width="1.5" />
+  <line x1="666" y1="318" x2="734" y2="318" stroke="black" stroke-width="2" />
+  <text x="700" y="280" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Role</text>
+  <circle cx="860" cy="280" r="34" fill="white" stroke="black" stroke-width="1.5" />
+  <line x1="826" y1="318" x2="894" y2="318" stroke="black" stroke-width="2" />
+  <text x="860" y="280" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">UserRole</text>
+  <circle cx="950" cy="430" r="34" fill="white" stroke="black" stroke-width="1.5" />
+  <line x1="916" y1="468" x2="984" y2="468" stroke="black" stroke-width="2" />
+  <text x="950" y="430" fill="black" style="font-family:Arial,sans-serif;font-size:11px;font-weight:normal;text-anchor:middle;">Notification</text>
+  <line x1="87" y1="205" x2="159" y2="165" stroke="black" stroke-width="1.3" marker-end="url(#arr)" marker-start="none" />
+  <text x="128.82771517414358" y="195.48988731345844" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">1: lihat pengguna</text>
+  <line x1="87" y1="230" x2="159" y2="275" stroke="black" stroke-width="1.3" marker-end="url(#arr)" marker-start="none" />
+  <text x="116.64001271996185" y="262.67597964806106" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">2: buat pengguna</text>
+  <line x1="87" y1="255" x2="159" y2="385" stroke="black" stroke-width="1.3" marker-end="url(#arr)" marker-start="none" />
+  <text x="112.50250372697501" y="325.8139979358292" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">3: assign role</text>
+  <line x1="291" y1="165" x2="399" y2="185" stroke="black" stroke-width="1.3" marker-end="url(#arr)" marker-start="none" />
+  <text x="342.8149288778123" y="186.79938405981352" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">4: getAllUsers()</text>
+  <line x1="291" y1="270" x2="430" y2="220" stroke="black" stroke-width="1.3" marker-end="url(#arr)" marker-start="none" />
+  <text x="364.5617568889892" y="256.29168415138986" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">5: createUser(data)</text>
+  <line x1="480" y1="175" x2="665" y2="145" stroke="black" stroke-width="1.3" marker-end="url(#arr)" marker-start="none" />
+  <text x="574.4208539026439" y="171.84526573297103" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">5.1: &lt;&lt;create&gt;&gt; User</text>
+  <line x1="495" y1="190" x2="825" y2="145" stroke="black" stroke-width="1.3" marker-end="url(#arr)" marker-start="none" />
+  <text x="661.6213584567997" y="179.3899620165316" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">5.2: &lt;&lt;create&gt;&gt;</text>
+  <text x="661.6213584567997" y="192.3899620165316" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">Pegawai/Mhs</text>
+  <line x1="291" y1="380" x2="399" y2="360" stroke="black" stroke-width="1.3" marker-end="url(#arr)" marker-start="none" />
+  <text x="347.1850711221877" y="381.7993840598135" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">6: assignRole(uid, role)</text>
+  <line x1="480" y1="320" x2="665" y2="285" stroke="black" stroke-width="1.3" marker-end="url(#arr)" marker-start="none" />
+  <text x="574.7307000172582" y="314.2908429483648" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">6.1: findRole(name)</text>
+  <line x1="495" y1="335" x2="825" y2="285" stroke="black" stroke-width="1.3" marker-end="url(#arr)" marker-start="none" />
+  <text x="661.797664553136" y="321.8645860506972" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">6.2: &lt;&lt;create&gt;&gt;</text>
+  <text x="661.797664553136" y="334.8645860506972" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">UserRole</text>
+  <line x1="465" y1="400" x2="604" y2="430" stroke="black" stroke-width="1.3" marker-end="url(#arr)" marker-start="none" />
+  <text x="531.968364446306" y="426.7299113987819" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">7: sendWelcomeEmail()</text>
+  <line x1="696" y1="430" x2="915" y2="430" stroke="black" stroke-width="1.3" marker-end="url(#arr)" marker-start="none" />
+  <text x="805.5" y="442.0" fill="black" style="font-family:Arial,sans-serif;font-size:10px;font-weight:normal;text-anchor:middle;">7.1: &lt;&lt;create&gt;&gt;</text>
+</svg>

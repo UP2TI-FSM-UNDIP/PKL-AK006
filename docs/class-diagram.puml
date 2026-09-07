@@ -1,0 +1,658 @@
+@startuml E-Office System Class Diagram
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam classFontSize 11
+skinparam packageFontSize 12
+skinparam arrowThickness 1.2
+skinparam classBackgroundColor #FAFAFA
+skinparam classBorderColor #888888
+skinparam packageBackgroundColor #F0F4FF
+skinparam packageBorderColor #6677AA
+
+title E-Office Monorepo — Class Diagram\nFSM UNDIP AK006 Letter Workflow
+
+' ============================================================
+' ENUMS
+' ============================================================
+package "Enums" <<Rectangle>> #FFF8E1 {
+
+  enum LetterStatus {
+    PENDING
+    IN_PROGRESS
+    COMPLETED
+    REJECTED
+  }
+
+  enum ApprovalStepStatus {
+    PENDING
+    APPROVED
+    REJECTED
+    REVISION
+  }
+
+  enum NotificationType {
+    LETTER_SUBMITTED
+    NEEDS_VERIFICATION
+    NEEDS_SIGNATURE
+    NEEDS_NUMBERING
+    REVISION_REQUIRED
+    LETTER_REJECTED
+    LETTER_COMPLETED
+    LETTER_VERIFIED
+    LETTER_SIGNED
+  }
+
+  enum FieldType {
+    STRING
+    NUMBER
+    DATE
+    FILE
+    BOOLEAN
+    ENUM
+  }
+
+  enum Jenjang {
+    S1
+    S2
+    S3
+  }
+
+  enum TemplateEngine {
+    HANDLEBARS
+    RAW
+  }
+
+  enum StepStatus {
+    DRAFT
+    ACCEPTED
+    VERIFIED
+    REJECTED
+    REVISION
+  }
+}
+
+' ============================================================
+' DOMAIN MODELS (Entities)
+' ============================================================
+package "Domain Models" <<Rectangle>> #E8F5E9 {
+
+  class User {
+    +id: String  {PK, cuid}
+    +name: String
+    +email: String  {unique}
+    +emailVerified: Boolean
+    +image: String?
+    +isAnonymous: Boolean?
+    +createdAt: DateTime?
+    +updatedAt: DateTime?
+    +deletedAt: DateTime?
+  }
+
+  class Session {
+    +id: String  {PK}
+    +expiresAt: DateTime
+    +token: String  {unique}
+    +createdAt: DateTime
+    +updatedAt: DateTime
+    +ipAddress: String?
+    +userAgent: String?
+    +userId: String  {FK}
+  }
+
+  class Account {
+    +id: String  {PK}
+    +accountId: String
+    +providerId: String
+    +userId: String  {FK}
+    +accessToken: String?
+    +refreshToken: String?
+    +idToken: String?
+    +accessTokenExpiresAt: DateTime?
+    +refreshTokenExpiresAt: DateTime?
+    +scope: String?
+    +password: String?
+    +createdAt: DateTime
+    +updatedAt: DateTime
+  }
+
+  class Verification <<BetterAuth>> {
+    +id: String  {PK}
+    +identifier: String
+    +value: String
+    +expiresAt: DateTime
+    +createdAt: DateTime
+    +updatedAt: DateTime
+  }
+
+  class Role {
+    +id: String  {PK, cuid}
+    +name: String  {unique}
+  }
+
+  class Permission {
+    +id: String  {PK, cuid}
+    +resource: String
+    +action: String
+    {constraint} unique(resource, action)
+  }
+
+  class UserRole {
+    +id: String  {PK, cuid}
+    +userId: String  {FK}
+    +roleId: String  {FK}
+    {constraint} unique(userId, roleId)
+  }
+
+  class RolePermission {
+    +id: String  {PK, cuid}
+    +roleId: String  {FK}
+    +permissionId: String  {FK}
+    {constraint} unique(roleId, permissionId)
+  }
+
+  class Mahasiswa {
+    +id: String  {PK, cuid}
+    +nim: String  {unique}
+    +tahunMasuk: String
+    +noHp: String
+    +alamat: String?
+    +tempatLahir: String?
+    +tanggalLahir: DateTime?
+    +userId: String  {FK, unique}
+    +departemenId: String  {FK}
+    +programStudiId: String  {FK}
+  }
+
+  class Pegawai {
+    +id: String  {PK, cuid}
+    +nip: String
+    +jabatan: String
+    +noHp: String?
+    +userId: String  {FK, unique}
+    +departemenId: String?  {FK}
+    +programStudiId: String?  {FK}
+    +createdAt: DateTime?
+    +updatedAt: DateTime?
+    +deletedAt: DateTime?
+  }
+
+  class Departemen {
+    +id: String  {PK, cuid}
+    +name: String
+    +code: String  {unique}
+    +createdAt: DateTime?
+    +updatedAt: DateTime?
+    +deletedAt: DateTime?
+  }
+
+  class ProgramStudi {
+    +id: String  {PK, cuid}
+    +name: String
+    +code: String  {unique}
+    +departemenId: String  {FK}
+    +createdAt: DateTime?
+    +updatedAt: DateTime?
+    +deletedAt: DateTime?
+  }
+
+  class LetterType {
+    +id: String  {PK, cuid}
+    +name: String
+    +description: String?
+    +createdAt: DateTime?
+    +updatedAt: DateTime?
+    +deletedAt: DateTime?
+  }
+
+  class LetterTemplate {
+    +id: String  {PK, cuid}
+    +versionName: String
+    +schemaDefinition: Json
+    +formFields: Json
+    +isActive: Boolean
+    +letterTypeId: String  {FK}
+    +createdAt: DateTime
+  }
+
+  class LetterInstance {
+    +id: String  {PK, cuid}
+    +schema: Json
+    +values: Json
+    +templateConfig: Json?
+    +status: LetterStatus
+    +currentStep: Int
+    +temporaryAgenda: String?
+    +letterNumber: String?
+    +signatureUrl: String?
+    +finalDocumentUrl: String?
+    +archivedAt: DateTime?
+    +archivedById: String?  {FK}
+    +letterTypeId: String  {FK}
+    +createdById: String  {FK}
+    +createdAt: DateTime
+    +updatedAt: DateTime?
+  }
+
+  class LetterApprovalStep {
+    +id: String  {PK, cuid}
+    +letterInstanceId: String  {FK}
+    +stepNumber: Int
+    +status: ApprovalStepStatus
+    +comments: String?
+    +actorId: String?  {FK}
+    +actorRole: String?
+    +createdAt: DateTime
+    +updatedAt: DateTime?
+  }
+
+  class Attachment {
+    +id: String  {PK, cuid}
+    +filename: String
+    +originalName: String
+    +mimeType: String?
+    +size: Int?
+    +url: String
+    +letterInstanceId: String?  {FK}
+    +createdAt: DateTime?
+    +updatedAt: DateTime?
+    +deletedAt: DateTime?
+  }
+
+  class Signature {
+    +id: String  {PK, cuid}
+    +userId: String  {FK}
+    +imageUrl: String
+    +isDefault: Boolean
+    +createdAt: DateTime
+  }
+
+  class Notification {
+    +id: String  {PK, cuid}
+    +userId: String  {FK}
+    +type: NotificationType
+    +title: String
+    +message: String
+    +letterInstanceId: String?  {FK}
+    +isRead: Boolean
+    +metadata: Json?
+    +createdAt: DateTime
+  }
+}
+
+' ============================================================
+' RELATIONS — Domain Models
+' ============================================================
+
+' Auth / Identity
+User "1" *-- "0..*" Session         : has >
+User "1" *-- "0..*" Account         : has >
+User "1" o-- "0..1" Mahasiswa       : profile >
+User "1" o-- "0..1" Pegawai         : profile >
+User "1" *-- "0..*" UserRole        : belongs to >
+User "1" *-- "0..*" Signature       : owns >
+User "1" *-- "0..*" Notification    : receives >
+
+' RBAC
+Role "1" *-- "0..*" UserRole        : assigned via >
+Role "1" *-- "0..*" RolePermission  : grants via >
+Permission "1" *-- "0..*" RolePermission : defined in >
+
+' Academic Structure
+Departemen "1" *-- "0..*" ProgramStudi  : contains >
+Departemen "1" o-- "0..*" Mahasiswa     : houses >
+Departemen "1" o-- "0..*" Pegawai       : employs >
+ProgramStudi "1" o-- "0..*" Mahasiswa   : enrolls >
+ProgramStudi "1" o-- "0..*" Pegawai     : assigns >
+
+' Letter Workflow
+LetterType "1" *-- "0..*" LetterTemplate    : versions >
+LetterType "1" *-- "0..*" LetterInstance    : typed as >
+LetterInstance "1" *-- "0..*" LetterApprovalStep : has steps >
+LetterInstance "1" *-- "0..*" Attachment    : carries >
+LetterInstance "1" *-- "0..*" Notification  : triggers >
+User "1" o-- "0..*" LetterInstance          : createdBy >
+User "1" o-- "0..*" LetterInstance          : archivedBy >
+User "1" o-- "0..*" LetterApprovalStep      : actor >
+
+LetterInstance ..> LetterStatus             : uses
+LetterApprovalStep ..> ApprovalStepStatus   : uses
+Notification ..> NotificationType           : uses
+
+' ============================================================
+' SERVICE LAYER
+' ============================================================
+package "Service Layer" <<Rectangle>> #E3F2FD {
+
+  abstract class "CRUD<TModel>" as CRUD {
+    -delegate: TDelegate  {static}
+    -commonIncludes: TCommonIncludes  {static}
+    -mergeOptions(options): CommonOptions  {static}
+    +getMany(options): Promise<TModel[]>  {static}
+    +getAll(): Promise<TModel[]>  {static}
+    +get(id, options): Promise<TModel|null>  {static}
+    +delete(id): Promise<TModel>  {static}
+    +count(options): Promise<number>  {static}
+  }
+
+  abstract class UserService {
+    +create(data): Promise<User>  {static}
+    +update(id, data): Promise<User>  {static}
+  }
+
+  abstract class MahasiswaService {
+    +create(data): Promise<Mahasiswa>  {static}
+    +update(id, data): Promise<Mahasiswa>  {static}
+  }
+
+  abstract class PegawaiService {
+    +create(data): Promise<Pegawai>  {static}
+    +update(id, data): Promise<Pegawai>  {static}
+  }
+
+  abstract class RoleService {
+    ' inherits CRUD only
+  }
+
+  abstract class PermissionService {
+    ' inherits CRUD only
+  }
+
+  abstract class DepartemenService {
+    +create(data): Promise<Departemen>  {static}
+    +update(id, data): Promise<Departemen>  {static}
+  }
+
+  abstract class ProgramStudiService {
+    +create(data): Promise<ProgramStudi>  {static}
+    +update(id, data): Promise<ProgramStudi>  {static}
+  }
+
+  abstract class LetterTypeService {
+    +getAllLetterVersion(id): Promise<LetterType>  {static}
+    +create(data): Promise<LetterType>  {static}
+    +update(id, data): Promise<LetterType>  {static}
+  }
+
+  abstract class LetterTemplateService {
+    +validateSchemaV1(schema): Promise<Schema>  {static}
+    +create(data): Promise<LetterTemplate>  {static}
+    +update(id, data): Promise<LetterTemplate>  {static}
+  }
+
+  abstract class LetterInstanceService {
+    ' ── Template Config ──
+    +ensureTemplateConfig(letter): Promise<T|null>  {static}
+    +ensureTemplateConfigMany(letters): Promise<T[]>  {static}
+    +backfillAllTemplateConfigs(): Promise<number>  {static}
+    ' ── Lifecycle ──
+    +create(data): Promise<LetterInstance>  {static}
+    +getById(id): Promise<LetterInstance|null>  {static}
+    +getByCreator(userId, typeCode?): Promise<LetterInstance[]>  {static}
+    +getPendingForStep(step, typeName?): Promise<LetterInstance[]>  {static}
+    +getProcessedByStep(step, typeName?): Promise<LetterInstance[]>  {static}
+    +getArchivedLetters(typeName?): Promise<LetterInstance[]>  {static}
+    +hasPendingLetter(userId, typeName): Promise<boolean>  {static}
+    ' ── Workflow ──
+    +approveStep(letterId, actorId, role, comments?): Promise<LetterInstance>  {static}
+    +rejectStep(letterId, actorId, role, comments): Promise<LetterInstance>  {static}
+    +requestRevision(letterId, actorId, role, comments, targetStep?): Promise<LetterInstance>  {static}
+    +resubmitAfterRevision(letterId, userId, values, attachments?, comments?): Promise<LetterInstance>  {static}
+    +selfRevise(letterId, userId, values, attachments?, comments?): Promise<LetterInstance>  {static}
+    +updateValues(letterId, values): Promise<LetterInstance>  {static}
+    +signLetter(letterId, actorId, signatureUrl, comments?): Promise<LetterInstance>  {static}
+    +forwardToUPA(letterId, actorId, comments?): Promise<LetterInstance>  {static}
+    +finalizeLetter(letterId, actorId, data?): Promise<LetterInstance>  {static}
+    +delete(letterId): Promise<void>  {static}
+    ' ── Helpers ──
+    +generateTemporaryAgenda(): Promise<string>  {static}
+    +generateLetterNumber(typeName): Promise<string>  {static}
+    +getRomanMonth(month): string  {static}
+    +getTimeline(letterId): Promise<Timeline>  {static}
+    +needsRevision(letterId): Promise<boolean>  {static}
+    ' Constants
+    LETTER_TYPE_AK006: "AK006"  {const}
+    STEP_SA: 1  {const}
+    STEP_MTU: 2  {const}
+    STEP_UPA: 3  {const}
+  }
+
+  abstract class SignatureService {
+    +create(data): Promise<Signature>  {static}
+    +getByUser(userId): Promise<Signature[]>  {static}
+    +getDefaultSignature(userId): Promise<Signature|null>  {static}
+    +getDefaultSignatureUrl(userId): Promise<string|null>  {static}
+    +getById(id): Promise<Signature|null>  {static}
+    +setDefault(id, userId): Promise<Signature>  {static}
+    +delete(id): Promise<Signature>  {static}
+  }
+}
+
+' Service Inheritance
+CRUD <|-- UserService
+CRUD <|-- MahasiswaService
+CRUD <|-- PegawaiService
+CRUD <|-- RoleService
+CRUD <|-- PermissionService
+CRUD <|-- DepartemenService
+CRUD <|-- ProgramStudiService
+CRUD <|-- LetterTypeService
+CRUD <|-- LetterTemplateService
+
+' Service → Model dependencies
+UserService ..> User                        : manages
+MahasiswaService ..> Mahasiswa              : manages
+PegawaiService ..> Pegawai                  : manages
+RoleService ..> Role                        : manages
+PermissionService ..> Permission            : manages
+DepartemenService ..> Departemen            : manages
+ProgramStudiService ..> ProgramStudi        : manages
+LetterTypeService ..> LetterType            : manages
+LetterTemplateService ..> LetterTemplate    : manages
+LetterInstanceService ..> LetterInstance    : manages
+SignatureService ..> Signature              : manages
+
+' ============================================================
+' INFRASTRUCTURE LAYER
+' ============================================================
+package "Infrastructure" <<Rectangle>> #FCE4EC {
+
+  abstract class MinioService {
+    -client: Client  {static, private}
+    -bucketName: String  {static, private}
+    -generateUniqueFileNameWithTimestamp(name): String  {static, private}
+    +ensureBucket(): Promise<void>  {static}
+    +listBucket(): Promise<Bucket[]>  {static}
+    +uploadFile(file, category, contentType?): Promise<{url, nameReplace}>  {static}
+    +downloadFile(objectName, downloadPath): Promise<void>  {static}
+    +getPresignedUrl(jenisFile, objectName, expiry): Promise<string>  {static}
+    +getFileStream(location): Promise<{stat, stream}>  {static}
+    +listObjects(prefix?): Promise<string[]>  {static}
+    +deleteFile(jenisFile, objectName): Promise<void>  {static}
+  }
+
+  class NotificationService <<singleton>> {
+    +createNotification(params): Promise<Notification>
+    +createNotificationForRole(role, params): Promise<Notification[]>
+    +getNotifications(userId, limit?, unreadOnly?): Promise<Notification[]>
+    +getUnreadCount(userId): Promise<number>
+    +markAsRead(notifId, userId): Promise<void>
+    +markAllAsRead(userId): Promise<void>
+    +deleteNotification(notifId, userId): Promise<void>
+    ' ── Business Helpers ──
+    +notifySANewLetter(letterId, name, type): Promise<void>
+    +notifyMTULetterVerified(letterId, name, type): Promise<void>
+    +notifyUPALetterSigned(letterId, name, type): Promise<void>
+    +notifyMahasiswaRevision(userId, letterId, type, comments, role): Promise<void>
+    +notifySARevision(letterId, type, name, comments): Promise<void>
+    +notifyMahasiswaRejection(userId, letterId, type, comments, role): Promise<void>
+    +notifyMahasiswaCompleted(userId, letterId, type): Promise<void>
+    +notifyMahasiswaVerified(userId, letterId, type): Promise<void>
+    +notifyMahasiswaSigned(userId, letterId, type): Promise<void>
+  }
+
+  class EmailService <<module>> {
+    -transporter: Nodemailer  {private}
+    +sendEmail(params): Promise<boolean>
+    +sendVerificationEmail(to, url): Promise<boolean>
+    +sendPasswordResetEmail(to, url): Promise<boolean>
+  }
+
+  class CasbinService <<module>> {
+    -enforcer: Enforcer?  {private, lazy}
+    +getEnforcer(): Promise<Enforcer>
+    +checkPermission(userId, resource, action): Promise<boolean>
+    +addPermissionToRole(role, resource, action): Promise<boolean>
+    +removePermissionFromRole(role, resource, action): Promise<boolean>
+    +assignRoleToUser(userId, role): Promise<boolean>
+    +removeRoleFromUser(userId, role): Promise<boolean>
+    +getUserRoles(userId): Promise<string[]>
+    +getRolePermissions(role): Promise<string[][]>
+  }
+}
+
+NotificationService ..> Notification  : creates
+
+' ============================================================
+' AUTH / MIDDLEWARE LAYER
+' ============================================================
+package "Auth & Middleware" <<Rectangle>> #F3E5F5 {
+
+  interface PermissionProps {
+    +resource: String
+    +action: String
+  }
+
+  interface RequiredRoleProps {
+    +requiredRole: String
+  }
+
+  class AuthGuardPlugin <<ElysiaPlugin>> {
+    +mount(auth.handler)
+    +resolve(headers): {user, session}
+    +macro permission(props): resolve
+    +macro role(props): resolve
+  }
+
+  class BetterAuth <<module>> {
+    +handler: fetch handler
+    +api.getSession(headers): Promise<Session>
+    ' Plugins: Prisma, Anonymous, Bearer
+  }
+
+  note right of AuthGuardPlugin
+    Macros usable on any route:
+    • permission: { resource, action }
+      → Casbin RBAC check
+    • role: { requiredRole }
+      → Direct role membership check
+  end note
+}
+
+AuthGuardPlugin ..> BetterAuth      : delegates session to
+AuthGuardPlugin ..> CasbinService   : calls checkPermission
+AuthGuardPlugin ..> PermissionProps : uses
+AuthGuardPlugin ..> RequiredRoleProps : uses
+
+' ============================================================
+' ROUTE GROUPS (as boundary objects)
+' ============================================================
+package "Route Groups" <<Rectangle>> #EFEBE9 {
+
+  class "letter/ak006\n(Mahasiswa)" as RouteAK006 <<routes>> {
+    POST /letter/ak006
+    GET /letter/ak006
+    GET /letter/ak006/:id
+    PUT /letter/ak006/:id
+    POST /letter/ak006/:id/resubmit
+    POST /letter/ak006/:id/self-revise
+    DELETE /letter/ak006/:id
+  }
+
+  class "letter/ak006-sa\n(Supervisor Akademik)" as RouteSA <<routes>> {
+    GET /letter/ak006/sa
+    POST /letter/ak006/sa/:id/approve
+    POST /letter/ak006/sa/:id/reject
+    POST /letter/ak006/sa/:id/revision
+  }
+
+  class "letter/ak006-mtu\n(Manajer TU)" as RouteMTU <<routes>> {
+    GET /letter/ak006/mtu
+    POST /letter/ak006/mtu/:id/sign
+    POST /letter/ak006/mtu/:id/forward
+    POST /letter/ak006/mtu/:id/reject
+    POST /letter/ak006/mtu/:id/revision
+  }
+
+  class "letter/ak006-upa\n(UPA)" as RouteUPA <<routes>> {
+    GET /letter/ak006/upa
+    POST /letter/ak006/upa/:id/finalize
+    POST /letter/ak006/upa/:id/reject
+    GET /letter/ak006/upa/archived
+  }
+
+  class "master/*\n(Superadmin)" as RouteMaster <<routes>> {
+    CRUD /master/user
+    CRUD /master/role
+    CRUD /master/permission
+    CRUD /master/mahasiswa
+    CRUD /master/pegawai
+    CRUD /master/departemen
+    CRUD /master/prodi
+    CRUD /master/suratType
+    CRUD /master/suratTemplate
+  }
+
+  class "public/*\n(Unauthenticated)" as RoutePublic <<routes>> {
+    POST /public/register
+    POST /public/sign-in
+    GET /public/verify
+    GET /public/reference
+    GET /public/files/:name
+    GET /public/template/:id
+  }
+
+  class "auth/sso\n(SSO)" as RouteSSO <<routes>> {
+    GET /auth/sso/redirect
+    GET /auth/sso/callback
+    POST /auth/sso/session
+  }
+
+  class "Other Routes" as RouteOther <<routes>> {
+    GET /me
+    PUT /me
+    GET /dash
+    POST /upload
+    GET /notification
+    PATCH /notification/:id/read
+    PATCH /notification/read-all
+  }
+}
+
+RouteAK006 ..> LetterInstanceService    : uses
+RouteAK006 ..> NotificationService      : uses
+RouteSA ..> LetterInstanceService       : uses
+RouteSA ..> NotificationService         : uses
+RouteMTU ..> LetterInstanceService      : uses
+RouteMTU ..> SignatureService           : uses
+RouteMTU ..> NotificationService        : uses
+RouteUPA ..> LetterInstanceService      : uses
+RouteUPA ..> NotificationService        : uses
+RouteMaster ..> UserService             : uses
+RouteMaster ..> RoleService             : uses
+RouteMaster ..> PermissionService       : uses
+RouteMaster ..> MahasiswaService        : uses
+RouteMaster ..> PegawaiService          : uses
+RouteMaster ..> DepartemenService       : uses
+RouteMaster ..> ProgramStudiService     : uses
+RouteMaster ..> LetterTypeService       : uses
+RouteMaster ..> LetterTemplateService   : uses
+RouteOther ..> MinioService             : uses (upload)
+RouteOther ..> NotificationService      : uses
+
+RouteAK006 --> AuthGuardPlugin          : protected by
+RouteSA --> AuthGuardPlugin             : protected by
+RouteMTU --> AuthGuardPlugin            : protected by
+RouteUPA --> AuthGuardPlugin            : protected by
+RouteMaster --> AuthGuardPlugin         : protected by
+
+@enduml

@@ -1,6 +1,0 @@
-[submodule "e-office-api-v2"]
-	path = e-office-api-v2
-	url = git@github.com:fikriww/e-office-api-v2-github.git
-[submodule "e-office-webapp-v2"]
-	path = e-office-webapp-v2
-	url = git@github.com:fikriww/e-office-webapp-v2-github.git
